@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink">#102A2D</color>
+    <color name="ink_soft">#385458</color>
+    <color name="muted">#607477</color>
+    <color name="paper">#FCFDF7</color>
+    <color name="leaf">#2D7D4B</color>
+    <color name="leaf_dark">#175B38</color>
+    <color name="leaf_pale">#E3F1E7</color>
+    <color name="sky_pale">#D9F0FA</color>
+    <color name="cream">#F7F3E4</color>
+    <color name="card_stroke">#D8E3DA</color>
+    <color name="icon_background">#2A99D2</color>
+</resources>
