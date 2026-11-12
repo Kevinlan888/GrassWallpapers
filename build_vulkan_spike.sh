@@ -5,6 +5,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SPIKE_DIR="$PROJECT_DIR/spike"
 BUILD_DIR="$PROJECT_DIR/.vulkan-spike-build"
 DIST_DIR="$PROJECT_DIR/dist"
+APK_NAME="${APK_NAME:-GrassWallpapers.apk}"
 
 SDK_ROOT="${ANDROID_SDK_ROOT:-$(sed -n 's/^sdk.dir=//p' "$PROJECT_DIR/local.properties")}"
 BUILD_TOOLS="${BUILD_TOOLS:-$SDK_ROOT/build-tools/36.0.0}"
@@ -142,11 +143,12 @@ cp "$BUILD_DIR/resources-unsigned.apk" "$BUILD_DIR/unsigned.apk"
     --v1-signing-enabled true \
     --v2-signing-enabled true \
     --v3-signing-enabled true \
-    --out "$DIST_DIR/A65_Grass_Vulkan_Wallpaper.apk" \
+    --v4-signing-enabled false \
+    --out "$DIST_DIR/$APK_NAME" \
     "$BUILD_DIR/aligned.apk"
 
-"$APKSIGNER" verify --verbose "$DIST_DIR/A65_Grass_Vulkan_Wallpaper.apk" > /dev/null
-"$ZIPALIGN" -c -v 4 "$DIST_DIR/A65_Grass_Vulkan_Wallpaper.apk" > /dev/null
+"$APKSIGNER" verify --verbose "$DIST_DIR/$APK_NAME" > /dev/null
+"$ZIPALIGN" -c -v 4 "$DIST_DIR/$APK_NAME" > /dev/null
 
-echo "Vulkan spike APK:"
-sha256sum "$DIST_DIR/A65_Grass_Vulkan_Wallpaper.apk"
+echo "GrassWallpapers APK:"
+sha256sum "$DIST_DIR/$APK_NAME"

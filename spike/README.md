@@ -1,7 +1,7 @@
 # 草地动态壁纸
 
-这个 APK 是独立的 Vulkan 动态壁纸，不会替换现有的 AOSP、MTK 两套壁纸。
-启动器入口只负责打开设置页；Vulkan 渲染在系统壁纸服务中启动。
+这是仓库中唯一维护的动态壁纸。启动器入口只负责打开设置页；
+Vulkan 渲染在系统壁纸服务中启动。
 
 - 包名：`com.a65.grasswallpapers.vulkan`
 - 版本：`0.11`（`versionCode 11`）
@@ -52,5 +52,5 @@
 输出：
 
 ```text
-dist/A65_Grass_Vulkan_Wallpaper.apk
+dist/GrassWallpapers.apk
 ```

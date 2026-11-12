@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="WallpaperPreviewView">
-        <attr name="grassVariant" format="enum">
-            <enum name="aosp" value="0" />
-            <enum name="mtk" value="1" />
-        </attr>
-    </declare-styleable>
-</resources>
