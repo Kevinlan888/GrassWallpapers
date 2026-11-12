@@ -9,7 +9,7 @@
 - 壁纸名称：`四季草地`
 - 包名：`com.a65.grasswallpapers.vulkan`
 - 当前版本：`0.12`（`versionCode 12`）
-- 自动构建：GitHub Actions 上传 APK 和 SHA-256 校验文件
+- 自动构建：普通推送上传 APK Artifact，推送 `v*` 标签自动创建 GitHub Release
 
 ## 功能
 
@@ -41,8 +41,9 @@ Vulkan 的设备仍能安装并进入设置页；没有 Vulkan 时壁纸无法�
 
 ## 安装与启用
 
-从 [GitHub Actions](https://github.com/Kevinlan888/GrassWallpapers/actions/workflows/build.yml)
-最近一次成功的 `Build APK` 运行中下载构建产物，或参考
+从 [Releases](https://github.com/Kevinlan888/GrassWallpapers/releases) 下载正式版本，
+或从 [GitHub Actions](https://github.com/Kevinlan888/GrassWallpapers/actions/workflows/build.yml)
+最近一次成功的 `Build APK` 运行中下载构建产物；也可以参考
 [从源码构建](#从源码构建) 在本地生成 APK。
 
 安装 APK：
@@ -114,7 +115,7 @@ adb install -r dist/GrassWallpapers.apk
 .
 ├── .github/
 │   └── workflows/
-│       └── build.yml              # GitHub Actions APK 构建
+│       └── build.yml              # GitHub Actions APK 构建与标签发布
 ├── build_vulkan_spike.sh          # 无 Gradle 的完整构建脚本
 ├── dist/
 │   └── GrassWallpapers.apk       # 本地构建产物，不进入 Git
@@ -198,6 +199,7 @@ GitHub Actions 工作流定义在 `.github/workflows/build.yml`，会在以下�
 - 推送到任意分支
 - 提交或更新 Pull Request
 - 在 Actions 页面手动触发
+- 推送名称以 `v` 开头的标签
 
 工作流会安装 JDK 17、Android SDK Platform 35、Build-Tools 36.0.0 和
 NDK 27.2.12479018，然后执行完整构建。每次成功运行会上传一个包含以下文件的
@@ -206,8 +208,24 @@ Artifact：
 - `GrassWallpapers.apk`
 - `GrassWallpapers.apk.sha256`
 
+推送 `v*` 标签时，`Publish GitHub Release` 任务会下载本次构建的 APK 和校验文件并
+附加到对应的 GitHub Release。普通分支构建只保留 Artifact，不会创建 Release。
+
 APK 被 `.gitignore` 排除，因此仓库不再跟踪二进制安装包。发布或测试时直接从
-Actions 的成功运行下载 Artifact，或按本文档在本地构建。
+Releases 或 Actions 的成功运行下载，或按本文档在本地构建。
+
+### 发布新版本
+
+确认 APK 内的 `versionName`、`versionCode` 与标签一致后，创建并推送标签：
+
+```bash
+git tag -a v0.12 -m "GrassWallpapers 0.12"
+git push origin v0.12
+```
+
+标签推送会触发完整构建；构建成功后自动创建 Release，并附带
+`GrassWallpapers.apk` 与 `GrassWallpapers.apk.sha256`。Release 说明由 GitHub
+根据提交记录自动生成。
 
 ## 故障排查
 
