@@ -1,6 +1,7 @@
 package com.a65.grasswallpapers.vulkan;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class VulkanGrassWallpaperService extends WallpaperService {
     private static final AtomicLong NEXT_NATIVE_OWNER = new AtomicLong(1);
+    private static final float TARGET_FRAME_RATE = 30.0f;
 
     @Override
     public Engine onCreateEngine() {
@@ -120,6 +122,10 @@ public final class VulkanGrassWallpaperService extends WallpaperService {
                 return;
             }
             Surface surface = getSurfaceHolder().getSurface();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                surface.setFrameRate(TARGET_FRAME_RATE,
+                        Surface.FRAME_RATE_COMPATIBILITY_FIXED_SOURCE);
+            }
             applySceneSettings();
             if (!VulkanNative.start(surface, nativeOwnerId)) {
                 return;

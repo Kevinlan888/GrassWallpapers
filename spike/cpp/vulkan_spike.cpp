@@ -32,6 +32,9 @@ constexpr uint32_t kGrassVerticesPerBlade = 36;
 constexpr uint32_t kDandelionCount = 18;
 constexpr uint32_t kParticleCount = 96;
 constexpr uint64_t kAcquireTimeoutNs = 100'000'000ULL;
+constexpr int kTargetFramesPerSecond = 30;
+constexpr std::chrono::microseconds kFrameInterval(
+        1'000'000 / kTargetFramesPerSecond);
 
 std::mutex gLifecycleMutex;
 std::mutex gStatusMutex;
@@ -1507,10 +1510,12 @@ Java_com_a65_grasswallpapers_vulkan_VulkanNative_nativeStart(
                 std::this_thread::sleep_for(std::chrono::milliseconds(40));
                 continue;
             }
+            const auto frameStartedAt = std::chrono::steady_clock::now();
             if (!renderer.drawFrame()) {
                 setStatus("render thread: drawFrame failed");
                 break;
             }
+            std::this_thread::sleep_until(frameStartedAt + kFrameInterval);
         }
         renderer.cleanup();
         gRunning.store(false);
