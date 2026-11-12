@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Vulkan 草地动态壁纸</string>
-    <string name="wallpaper_name">Vulkan 四季草地</string>
+    <string name="app_name">草地动态壁纸</string>
+    <string name="wallpaper_name">四季草地</string>
     <string name="wallpaper_author">A65 草地复刻 · Vulkan</string>
     <string name="wallpaper_description">Vulkan 渲染的四季草地：512 根草叶、蒲公英、枫叶与雪花，可跟随本地时间或定时轮转。</string>
     <string name="setup_badge">VULKAN · LIVE WALLPAPER</string>
-    <string name="setup_title">Vulkan 四季草地</string>
+    <string name="setup_title">四季草地</string>
     <string name="setup_subtitle">把会呼吸的草地放到桌面。春、夏、秋、冬与清晨、白天、傍晚、夜晚会自动变化。</string>
     <string name="feature_summary">四季与四时段自动切换\n512 根动态草叶、蒲公英与季节粒子\n支持本地时间同步或定时轮转\n关闭时间同步后，轻点左半屏切换季节、右半屏切换时段</string>
     <string name="scene_settings_title">场景更新</string>

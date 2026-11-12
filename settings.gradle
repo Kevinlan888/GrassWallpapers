@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'A65GrassAndroid15'
+rootProject.name = 'GrassWallpapers'
 include ':app'
