@@ -1,0 +1,67 @@
+name: Build APK
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build GrassWallpapers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install build utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xxd zip
+
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager \
+            "platforms;android-35" \
+            "build-tools;36.0.0" \
+            "ndk;27.2.12479018"
+
+      - name: Build APK
+        run: |
+          export ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          export ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk/27.2.12479018"
+          chmod +x build_vulkan_spike.sh
+          ./build_vulkan_spike.sh
+
+      - name: Generate checksum
+        run: |
+          cd dist
+          sha256sum GrassWallpapers.apk > GrassWallpapers.apk.sha256
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: GrassWallpapers-${{ github.run_number }}-${{ github.run_attempt }}
+          path: |
+            dist/GrassWallpapers.apk
+            dist/GrassWallpapers.apk.sha256
+          if-no-files-found: error
+          retention-days: 30

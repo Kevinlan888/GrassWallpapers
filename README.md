@@ -1,5 +1,7 @@
 # GrassWallpapers（四季草地）
 
+[![Build APK](https://github.com/Kevinlan888/GrassWallpapers/actions/workflows/build.yml/badge.svg)](https://github.com/Kevinlan888/GrassWallpapers/actions/workflows/build.yml)
+
 面向 Android 的 Vulkan 动态壁纸。桌面会呈现一片持续摆动的草地，并根据本地时间、
 季节自动切换清晨、白天、傍晚、夜晚，以及春、夏、秋、冬的场景。
 
@@ -7,7 +9,7 @@
 - 壁纸名称：`四季草地`
 - 包名：`com.a65.grasswallpapers.vulkan`
 - 当前版本：`0.12`（`versionCode 12`）
-- 安装包：[`dist/GrassWallpapers.apk`](dist/GrassWallpapers.apk)
+- 自动构建：GitHub Actions 上传 APK 和 SHA-256 校验文件
 
 ## 功能
 
@@ -38,6 +40,10 @@
 Vulkan 的设备仍能安装并进入设置页；没有 Vulkan 时壁纸无法绘制场景。
 
 ## 安装与启用
+
+从 [GitHub Actions](https://github.com/Kevinlan888/GrassWallpapers/actions/workflows/build.yml)
+最近一次成功的 `Build APK` 运行中下载构建产物，或参考
+[从源码构建](#从源码构建) 在本地生成 APK。
 
 安装 APK：
 
@@ -106,9 +112,12 @@ adb install -r dist/GrassWallpapers.apk
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── build.yml              # GitHub Actions APK 构建
 ├── build_vulkan_spike.sh          # 无 Gradle 的完整构建脚本
 ├── dist/
-│   └── GrassWallpapers.apk       # 构建产物
+│   └── GrassWallpapers.apk       # 本地构建产物，不进入 Git
 ├── spike/
 │   ├── AndroidManifest.xml
 │   ├── README.md                 # 实现与版本细节
@@ -181,6 +190,24 @@ dist/GrassWallpapers.apk
 | `ANDROID_JAR` | 指定 `android.jar` |
 | `DEBUG_KEYSTORE` | 指定签名密钥库 |
 | `APK_NAME` | 指定输出 APK 文件名 |
+
+## 持续集成
+
+GitHub Actions 工作流定义在 `.github/workflows/build.yml`，会在以下场景运行：
+
+- 推送到任意分支
+- 提交或更新 Pull Request
+- 在 Actions 页面手动触发
+
+工作流会安装 JDK 17、Android SDK Platform 35、Build-Tools 36.0.0 和
+NDK 27.2.12479018，然后执行完整构建。每次成功运行会上传一个包含以下文件的
+Artifact：
+
+- `GrassWallpapers.apk`
+- `GrassWallpapers.apk.sha256`
+
+APK 被 `.gitignore` 排除，因此仓库不再跟踪二进制安装包。发布或测试时直接从
+Actions 的成功运行下载 Artifact，或按本文档在本地构建。
 
 ## 故障排查
 

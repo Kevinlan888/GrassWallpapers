@@ -1,4 +1,5 @@
 local.properties
 .vulkan-spike-build/
+*.apk
 *.idsig
 *.swp
